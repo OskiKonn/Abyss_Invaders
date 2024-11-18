@@ -10,7 +10,9 @@ public:
 	sf::RenderWindow gameWindow;
 	bool isMenuActive = true;
 
-	Engine() : gameWindow(sf::VideoMode(800, 600), "SFML works!", sf::Style::Default) { }
+	Engine() : gameWindow(sf::VideoMode(800, 600), "SFML works!", sf::Style::Default),
+			   m_menu(&gameWindow) { }
+
 	bool ready();
 	void Run();
 	void processEvents(sf::Event &event);

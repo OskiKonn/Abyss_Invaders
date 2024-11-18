@@ -1,24 +1,26 @@
 #include "Menu.h"
 #include <iostream>
-#include <string>
 
-Menu::Menu() :
-	selectedOption(0)
+Menu::Menu(sf::RenderWindow *win) :
+	selectedOption(0),
+	m_gameWin(win)
 
 {
-	m_titleHeader.setString("ABYSS INVADERS");
-	initMenuOpts();
-	
-	if (!m_font.loadFromFile("assets/fonts/PlayMeGames-Demo.otf"))
+	if (!m_font.loadFromFile(m_fontPath))
 	{
 		std::cerr << "FAILED TO LOAD FONT";
 	}
+
+	m_titleHeader.setString("ABYSS INVADERS");
+	initMenuOpts();
+	
 }
 
 void Menu::initMenuOpts()
 {
-	for (std::size_t i = 0; i < MAX_MENU_ITEMS; ++i)
+	for (std::size_t i = 0; i < MAX_MENU_ITEMS && m_optionsLabels[i] != ""; ++i)
 	{
+
 		m_menuOptions[i].setFont(m_font);
 
 		if (i == selectedOption)
@@ -35,20 +37,29 @@ void Menu::initMenuOpts()
 
 		m_menuOptions[i].setFillColor(sf::Color::White);
 		m_menuOptions[i].setPosition(380.f, 380.f + i * 35.f);
+
+		/*
+		m_titleHeader.setFont(m_font);
+		m_titleHeader.setPosition(m_gameWin->getSize().x / 2 - m_titleHeader.getGlobalBounds().width / 2,
+								  m_gameWin->getSize().y / 8);
+		m_titleHeader.setCharacterSize(32);
+		*/
 	}
 }
 
-void Menu::Draw(sf::RenderWindow *win)
+void Menu::Draw()
 {
-	for (size_t i = 0; i < MAX_MENU_ITEMS; ++i)
+	for (size_t i = 0; i < MAX_MENU_ITEMS && m_optionsLabels[i] != ""; ++i)
 	{
-		win->draw(m_menuOptions[i]);
+		m_gameWin->draw(m_menuOptions[i]);
 	}
+
+	m_gameWin->draw(m_titleHeader);
 }
 
 void Menu::menuDown()
 {
-	if (selectedOption < 2)
+	if (selectedOption < MAX_MENU_ITEMS - 1 && m_optionsLabels[selectedOption + 1] != "")
 	{
 		++selectedOption;
 		initMenuOpts();
@@ -64,10 +75,29 @@ void Menu::menuUp()
 	}
 }
 
-int Menu::menuEnter()
+void Menu::menuEnter()
 {
+	switch (selectedOption)
+	{
+		case 0:
+			m_menu_type = PlayMenu;
+			break;
+
+		case 1:
+			m_menu_type = SettingsMenu;
+			break;
+
+		case 2:
+			m_gameWin->close();
+			break;
+
+		default:
+			std::cerr << "\nNo such menu option!";
+			break;
+	}
+
 	std::cout << "\nSelected Option: " << selectedOption;
-	return selectedOption;
+	std::cout << "\n\nGo to menu: " << m_menu_type;
 }
 
 Menu::~Menu()

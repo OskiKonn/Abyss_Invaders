@@ -1,5 +1,4 @@
 #include "Engine.h"
-#include <SFML/Graphics.hpp>
 
 
 // Ready function for checking all neccessary stuff before running
@@ -71,7 +70,7 @@ void Engine::renderFrame()
 
 void Engine::drawMenu()
 {
-    m_menu.Draw(&gameWindow);
+    m_menu.Draw();
 }
 
 // Menu navigation
