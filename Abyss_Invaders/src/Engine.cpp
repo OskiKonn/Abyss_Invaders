@@ -15,15 +15,16 @@ void Engine::Run()
 {
 	while (isGameRunning())
 	{
-		sf::Event event;
-        processEvents(event);
+        processEvents();
         renderFrame();
 	}
 }
 
 // Handling various events, i.e. handling user inputs
-void Engine::processEvents(sf::Event &event)
+void Engine::processEvents()
 {
+    sf::Event event;
+
     while (gameWindow.pollEvent(event))
     {
         switch (event.type)
@@ -35,23 +36,7 @@ void Engine::processEvents(sf::Event &event)
 
             case sf::Event::KeyPressed:
 
-                if (isMenuActive)
-                {
-                    switch (event.key.code)
-                    {
-                        case sf::Keyboard::Up:
-                            MenuUp();
-                            break;
-
-                        case sf::Keyboard::Down:
-                            MenuDown();
-                            break;
-
-                        case sf::Keyboard::Enter:
-                            m_menu.menuEnter();
-                            break;
-                    }
-                }
+                m_inputController.handleInput(event.key.code);
 
             default:
                 break;

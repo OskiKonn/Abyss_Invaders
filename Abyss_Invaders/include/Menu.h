@@ -24,7 +24,7 @@ public:
 
 private:
 
-	enum MenuType {
+	enum class MenuType {
 		MainMenu,
 		SettingsMenu,
 		PlayMenu
@@ -36,7 +36,7 @@ private:
 	sf::Text m_menuOptions[MAX_MENU_ITEMS];
 	sf::Text m_titleHeader;
 	sf::Font m_font;
-	MenuType m_menu_type = MainMenu;
+	MenuType m_menu_type = MenuType::MainMenu;
 	std::string m_optionsLabels[MAX_MENU_ITEMS] = {"Play", "Settings", "Quit", ""};
 };
 

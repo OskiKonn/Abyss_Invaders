@@ -80,11 +80,11 @@ void Menu::menuEnter()
 	switch (selectedOption)
 	{
 		case 0:
-			m_menu_type = PlayMenu;
+			m_menu_type = MenuType::PlayMenu;
 			break;
 
 		case 1:
-			m_menu_type = SettingsMenu;
+			m_menu_type = MenuType::SettingsMenu;
 			break;
 
 		case 2:
@@ -97,7 +97,6 @@ void Menu::menuEnter()
 	}
 
 	std::cout << "\nSelected Option: " << selectedOption;
-	std::cout << "\n\nGo to menu: " << m_menu_type;
 }
 
 Menu::~Menu()

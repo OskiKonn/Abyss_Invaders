@@ -14,6 +14,6 @@ public:
 
 private:
 	
-	static const sf::Vector2f velocity;
+	const sf::Vector2f velocity;
 };
 
