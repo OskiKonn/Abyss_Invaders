@@ -32,7 +32,13 @@ public:
 
 private:
 
-	sf::RenderWindow* gameWindow;
+	enum class MenuType {
+		MainMenu,
+		SettingsMenu,
+		PlayMenu
+	};
+
+	sf::RenderWindow* m_gameWin;
 	const std::string m_fontPath = "assets/fonts/PlayMeGames-Demo.otf";
 	const char m_indicator[4] = ">  ";
 	sf::Text m_menuOptions[MAX_MENU_ITEMS];

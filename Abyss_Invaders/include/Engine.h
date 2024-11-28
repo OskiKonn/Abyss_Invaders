@@ -1,12 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <SFML/System/Clock.hpp>
 #include <SFML/System/Time.hpp>
-#include <memory>
+#include <SFML/System/Clock.hpp>s
 #include "Menu.h"
-#include "Player.h"
-#include "InputControl.h"
 
 class Engine
 {
@@ -16,12 +13,12 @@ public:
 	bool isMenuActive = true;
 	bool isGameLive = false;
 
-	Engine() : gameWindow(sf::VideoMode(800, 600), "Abyss Invaders", sf::Style::Default),
+	Engine() : gameWindow(sf::VideoMode(800, 600), "SFML works!", sf::Style::Default),
 			   m_menu(&gameWindow) { }
 
 	bool ready();
 	void Run();
-	void update(const float &dt);
+	void processEvents(sf::Event &event);
 	void renderFrame();
 	void drawMenu();
 	void MenuDown();
@@ -35,8 +32,6 @@ private:
 
 	sf::Time m_deltaTime;
 	Menu m_menu;
-	InputControl inputController;
-	std::shared_ptr<Player> player;
 
 	bool isGameRunning();
 };

@@ -17,14 +17,13 @@ void Engine::Run()
 
 	while (isGameRunning())
 	{
-        m_deltaTime = gameClock.restart();
-        update(m_deltaTime.asSeconds());
+        processEvents();
         renderFrame();
 	}
 }
 
-// Handling user inputs and event
-void Engine::update(const float &dt)
+// Handling various events, i.e. handling user inputs
+void Engine::processEvents(sf::Event &event)
 {
     sf::Event event;
 
@@ -38,14 +37,24 @@ void Engine::update(const float &dt)
 
             // Handles single key input
             case sf::Event::KeyPressed:
+
                 if (isMenuActive)
-                    handleMenuNavigation(event);
+                {
+                    switch (event.key.code)
+                    {
+                        case sf::Keyboard::Up:
+                            MenuUp();
+                            break;
 
-            default:
-                break;
+                        case sf::Keyboard::Down:
+                            MenuDown();
+                            break;
 
-        }
-    }
+                        case sf::Keyboard::Enter:
+                            m_menu.menuEnter();
+                            break;
+                    }
+                }
 
     if (isGameLive)
         inputController.handlePlayerMovement(dt);

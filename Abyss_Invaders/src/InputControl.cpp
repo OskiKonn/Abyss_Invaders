@@ -1,44 +1,34 @@
 #include "InputControl.h"
 
-InputControl::InputControl()
+void InputControl::handleInput(sf::Keyboard::Key &key_code)
+{
+	if (inMenu)
+	{
+		navigateMenu(key_code);
+	}
+	else
+	{
+		std::cerr << "\nCANNOT PROCESS INPUT\n";
+	}
+}
+
 {
 }
 
-void InputControl::handlePlayerMovement(const float& dt)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        if (playerLeft)
-            playerLeft();
+	{
+		case sf::Keyboard::Up:
+			break;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        if (playerRight)
-            playerRight();
+		case sf::Keyboard::Down:
+			break;
+
+		case sf::Keyboard::Enter:
+			break;
+	}
 }
 
-void InputControl::handleMenuNavigation(sf::Event &event)
+void InputControl::handlePlayerActions(sf::Keyboard::Key& key_code)
 {
-    switch (event.key.code)
-    {
-    case sf::Keyboard::Up:
-        menuUp();
-        break;
-
-    case sf::Keyboard::Down:
-        menuDown();
-        break;
-
-    case sf::Keyboard::Enter:
-        menuEnter();
-
-        // If selected to play, sets isMenuActive to false and thus creates
-        // new Player object and sets is starting position
-        if (selectedMenu == Menu::MenuType::PlayMenu)
-        {
-            isMenuActive = false;
-            isGameLive = true;
-            player = std::make_shared<Player>();
-            player->playerSprite.setPosition(gameWindow.getSize().x / 2, gameWindow.getSize().y / 1.15);
-        }
-        break;
-    }
+	// TO DO
 }

@@ -101,7 +101,5 @@ enum Menu::MenuType Menu::menuEnter()
 	}
 
 	std::cout << "\nSelected Option: " << selectedOption;
-	
-	return m_menu_type;
 }
 

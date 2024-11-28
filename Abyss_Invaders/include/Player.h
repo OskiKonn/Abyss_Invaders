@@ -15,18 +15,15 @@ public:
 	};
 
 	int health = 3;
+	sf::Texture playerTexture;
 	sf::Sprite playerSprite;
 
-	Player();
+	Player() = default;
 
 	void move(Direction direction, const float& deltaTime);
 	virtual ~Player() = default;
 
 private:
 	
-	sf::Texture m_playerTexture;
-	sf::Vector2f velocity;
-	const std::string m_texture_path = "assets/textures/player.png";
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
 
