@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <functional>
 #include <string>
 #include <vector>
 #include <array>
@@ -13,22 +12,15 @@ class Menu
 
 public:
 
-	enum class MenuType {
-		MainMenu,
-		SettingsMenu,
-		PlayMenu
-	};
-
 	short selectedOption;
-	std::function<MenuType()>
 
-	Menu(sf::RenderWindow *win);
+	Menu(sf::RenderWindow* win);
 	void initMenuOpts();
 	void Draw();
 	void menuDown();
 	void menuUp();
-	MenuType menuEnter();
-	~Menu() = default;
+	void menuEnter();
+	~Menu();
 
 private:
 
@@ -45,6 +37,6 @@ private:
 	sf::Text m_titleHeader;
 	sf::Font m_font;
 	MenuType m_menu_type = MenuType::MainMenu;
-	std::string m_optionsLabels[MAX_MENU_ITEMS] = {"Play", "Settings", "Quit", ""};
+	std::string m_optionsLabels[MAX_MENU_ITEMS] = { "Play", "Settings", "Quit", "" };
 };
 

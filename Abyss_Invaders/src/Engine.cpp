@@ -13,17 +13,15 @@ bool Engine::ready()
 // Running the main loop of the game
 void Engine::Run()
 {
-    sf::Clock gameClock;
-
-	while (isGameRunning())
-	{
+    while (isGameRunning())
+    {
         processEvents();
         renderFrame();
-	}
+    }
 }
 
 // Handling various events, i.e. handling user inputs
-void Engine::processEvents(sf::Event &event)
+void Engine::processEvents()
 {
     sf::Event event;
 
@@ -31,34 +29,20 @@ void Engine::processEvents(sf::Event &event)
     {
         switch (event.type)
         {
-            case sf::Event::Closed:
-                gameWindow.close();
-                break;
+        case sf::Event::Closed:
 
-            // Handles single key input
-            case sf::Event::KeyPressed:
+            gameWindow.close();
+            break;
 
-                if (isMenuActive)
-                {
-                    switch (event.key.code)
-                    {
-                        case sf::Keyboard::Up:
-                            MenuUp();
-                            break;
+        case sf::Event::KeyPressed:
 
-                        case sf::Keyboard::Down:
-                            MenuDown();
-                            break;
+            m_inputController.handleInput(event.key.code);
 
-                        case sf::Keyboard::Enter:
-                            m_menu.menuEnter();
-                            break;
-                    }
-                }
+        default:
+            break;
 
-    if (isGameLive)
-        inputController.handlePlayerMovement(dt);
-
+        }
+    }
 }
 
 // Drawing new Frame
@@ -66,67 +50,32 @@ void Engine::renderFrame()
 {
     gameWindow.clear();
     drawMenu();
-
-    if (player)
-        gameWindow.draw(*player);
-
     gameWindow.display();
 }
 
 void Engine::drawMenu()
 {
-    if (isMenuActive)
-        m_menu.Draw();
+    m_menu.Draw();
 }
 
 // Menu navigation
 void Engine::MenuDown()
 {
-	m_menu.menuDown();
+    m_menu.menuDown();
 }
 
 void Engine::MenuUp()
 {
-	m_menu.menuUp();
-}
-
-bool Engine::startLevel()
-{
-    return false;
-}
-
-void Engine::handleMenuNavigation(sf::Event &event)
-{
-        switch (event.key.code)
-        {
-            case sf::Keyboard::Up:
-                MenuUp();
-                break;
-
-            case sf::Keyboard::Down:
-                MenuDown();
-                break;
-
-            case sf::Keyboard::Enter:
-                Menu::MenuType selectedMenu = m_menu.menuEnter();
-
-                // If selected to play, sets isMenuActive to false and thus creates
-                // new Player object and sets is starting position
-                if (selectedMenu == Menu::MenuType::PlayMenu)
-                {
-                    isMenuActive = false;
-                    isGameLive = true;
-                    player = std::make_shared<Player>();
-                    inputController.setPlayer(player);
-                    player->playerSprite.setPosition(gameWindow.getSize().x / 2, gameWindow.getSize().y / 1.15);
-                }
-                break;
-        }
+    m_menu.menuUp();
 }
 
 // Returns if window is open and running
 bool Engine::isGameRunning()
 {
     return gameWindow.isOpen();
+}
+
+Engine::~Engine()
+{
 }
 

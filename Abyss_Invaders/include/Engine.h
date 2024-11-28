@@ -4,34 +4,32 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>s
 #include "Menu.h"
+#include "InputControl.h"
 
 class Engine
 {
 public:
-	
+
 	sf::RenderWindow gameWindow;
 	bool isMenuActive = true;
-	bool isGameLive = false;
 
-	Engine() : gameWindow(sf::VideoMode(800, 600), "SFML works!", sf::Style::Default),
-			   m_menu(&gameWindow) { }
+	Engine() : gameWindow(sf::VideoMode(800, 600), "Abyss Invaders", sf::Style::Default),
+		m_menu(&gameWindow), m_inputController(m_menu) {  }
 
 	bool ready();
 	void Run();
-	void processEvents(sf::Event &event);
+	void processEvents();
 	void renderFrame();
 	void drawMenu();
 	void MenuDown();
 	void MenuUp();
-	bool startLevel();	// To Do: Add enum level parameter
-	void handleMenuNavigation(sf::Event &event);
-
-	~Engine() = default;
+	~Engine();
 
 private:
 
-	sf::Time m_deltaTime;
 	Menu m_menu;
+	InputControl m_inputController;
+	sf::Time deltaTime;
 
 	bool isGameRunning();
 };
