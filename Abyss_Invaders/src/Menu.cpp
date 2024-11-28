@@ -3,7 +3,7 @@
 
 Menu::Menu(sf::RenderWindow *win) :
 	selectedOption(0),
-	m_gameWin(win)
+	gameWindow(win)
 
 {
 	if (!m_font.loadFromFile(m_fontPath))
@@ -16,6 +16,7 @@ Menu::Menu(sf::RenderWindow *win) :
 	
 }
 
+// Initializing current menu options + positioning
 void Menu::initMenuOpts()
 {
 	for (std::size_t i = 0; i < MAX_MENU_ITEMS && m_optionsLabels[i] != ""; ++i)
@@ -25,6 +26,7 @@ void Menu::initMenuOpts()
 
 		if (i == selectedOption)
 		{
+			// Sets > indicator next to active option 
 			std::string optWithIndicator = m_indicator + m_optionsLabels[i];
 			m_menuOptions[i].setString(optWithIndicator);
 			m_menuOptions[i].setCharacterSize(23);
@@ -40,8 +42,8 @@ void Menu::initMenuOpts()
 
 		/*
 		m_titleHeader.setFont(m_font);
-		m_titleHeader.setPosition(m_gameWin->getSize().x / 2 - m_titleHeader.getGlobalBounds().width / 2,
-								  m_gameWin->getSize().y / 8);
+		m_titleHeader.setPosition(gameWindow->getSize().x / 2 - m_titleHeader.getGlobalBounds().width / 2,
+								  gameWindow->getSize().y / 8);
 		m_titleHeader.setCharacterSize(32);
 		*/
 	}
@@ -51,10 +53,10 @@ void Menu::Draw()
 {
 	for (size_t i = 0; i < MAX_MENU_ITEMS && m_optionsLabels[i] != ""; ++i)
 	{
-		m_gameWin->draw(m_menuOptions[i]);
+		gameWindow->draw(m_menuOptions[i]);
 	}
 
-	m_gameWin->draw(m_titleHeader);
+	gameWindow->draw(m_titleHeader);
 }
 
 void Menu::menuDown()
@@ -75,20 +77,22 @@ void Menu::menuUp()
 	}
 }
 
-void Menu::menuEnter()
+// Responsible for menu selection. Returns MenuType to menu input handling in Engine
+enum Menu::MenuType Menu::menuEnter()
 {
 	switch (selectedOption)
 	{
 		case 0:
-			m_menu_type = PlayMenu;
+			m_menu_type = MenuType::PlayMenu;
 			break;
 
 		case 1:
-			m_menu_type = SettingsMenu;
+			m_menu_type = MenuType::SettingsMenu;
 			break;
 
+		// Quits the game and closes the window
 		case 2:
-			m_gameWin->close();
+			gameWindow->close();
 			break;
 
 		default:
@@ -97,9 +101,7 @@ void Menu::menuEnter()
 	}
 
 	std::cout << "\nSelected Option: " << selectedOption;
-	std::cout << "\n\nGo to menu: " << m_menu_type;
+	
+	return m_menu_type;
 }
 
-Menu::~Menu()
-{
-}
