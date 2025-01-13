@@ -1,6 +1,5 @@
 #include "Engine.h"
 
-
 // Ready function for checking all neccessary stuff before running
 bool Engine::ready()
 {
@@ -36,7 +35,7 @@ void Engine::processEvents()
 
         case sf::Event::KeyPressed:
 
-            m_inputController.handleInput(event.key.code);
+            inputController.handleInput(event.key.code);
 
         default:
             break;
@@ -49,7 +48,8 @@ void Engine::processEvents()
 void Engine::renderFrame()
 {
     gameWindow.clear();
-    drawMenu();
+    if (m_menu.inMenu)
+        drawMenu();
     gameWindow.display();
 }
 
@@ -58,16 +58,6 @@ void Engine::drawMenu()
     m_menu.Draw();
 }
 
-// Menu navigation
-void Engine::MenuDown()
-{
-    m_menu.menuDown();
-}
-
-void Engine::MenuUp()
-{
-    m_menu.menuUp();
-}
 
 // Returns if window is open and running
 bool Engine::isGameRunning()
@@ -75,7 +65,14 @@ bool Engine::isGameRunning()
     return gameWindow.isOpen();
 }
 
+void Engine::createAbyss()
+{
+    abyssWorld = std::make_unique<AbyssWorld>();
+    abyssWorld->test();
+}
+
 Engine::~Engine()
 {
 }
+
 

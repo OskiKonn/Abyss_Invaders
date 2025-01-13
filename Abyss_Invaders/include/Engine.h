@@ -2,35 +2,40 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Time.hpp>
-#include <SFML/System/Clock.hpp>s
+#include <SFML/System/Clock.hpp>
+#include <memory>
 #include "Menu.h"
 #include "InputControl.h"
+#include "AbyssWorld.h"
 
 class Engine
 {
 public:
 
-	sf::RenderWindow gameWindow;
-	bool isMenuActive = true;
 
 	Engine() : gameWindow(sf::VideoMode(800, 600), "Abyss Invaders", sf::Style::Default),
-		m_menu(&gameWindow), m_inputController(m_menu) {  }
+		m_menu(&gameWindow, this),
+		inputController(m_menu) { }
 
 	bool ready();
 	void Run();
-	void processEvents();
-	void renderFrame();
 	void drawMenu();
-	void MenuDown();
-	void MenuUp();
+	void createAbyss();
+
 	~Engine();
 
 private:
 
+	sf::RenderWindow gameWindow;
 	Menu m_menu;
-	InputControl m_inputController;
+	std::unique_ptr<AbyssWorld> abyssWorld;
 	sf::Time deltaTime;
 
 	bool isGameRunning();
+	void processEvents();
+	void renderFrame();
+	
+public:
+	InputControl inputController;
 };
 

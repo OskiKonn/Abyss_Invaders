@@ -2,7 +2,6 @@
 
 #include <SFML/Window.hpp>
 #include <iostream>
-#include <memory>
 #include "Menu.h"
 
 class InputControl
@@ -16,8 +15,8 @@ public:
 
 private:
 
-	bool inMenu = true;
 	Menu& m_ui;
+	bool *inMenu = &m_ui.inMenu;
 
 	void navigateMenu(sf::Keyboard::Key& key_code);
 	void handlePlayerActions(sf::Keyboard::Key& key_code);

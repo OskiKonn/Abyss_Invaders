@@ -2,7 +2,7 @@
 
 void InputControl::handleInput(sf::Keyboard::Key& key_code)
 {
-	if (inMenu)
+	if (*inMenu)
 	{
 		navigateMenu(key_code);
 	}
@@ -31,6 +31,8 @@ void InputControl::navigateMenu(sf::Keyboard::Key& key_code)
 
 	case sf::Keyboard::Enter:
 		m_ui.menuEnter();
+
+
 		break;
 	}
 }

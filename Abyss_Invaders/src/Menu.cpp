@@ -1,11 +1,14 @@
 #include "Menu.h"
+#include "Engine.h"
 #include <iostream>
 
-Menu::Menu(sf::RenderWindow* win) :
+Menu::Menu(sf::RenderWindow* win, Engine *engine) :
 	selectedOption(0),
 	m_gameWin(win)
 
 {
+	this->engine = engine;
+
 	if (!m_font.loadFromFile(m_fontPath))
 	{
 		std::cerr << "FAILED TO LOAD FONT";
@@ -75,12 +78,14 @@ void Menu::menuUp()
 	}
 }
 
-void Menu::menuEnter()
+int Menu::menuEnter()
 {
 	switch (selectedOption)
 	{
 	case 0:
 		m_menu_type = MenuType::PlayMenu;
+		inMenu = false;
+		engine->createAbyss();	// Creates AbyssWorld
 		break;
 
 	case 1:
@@ -96,7 +101,8 @@ void Menu::menuEnter()
 		break;
 	}
 
-	std::cout << "\nSelected Option: " << selectedOption;
+	//std::cout << "\nSelected Option: " << selectedOption;
+	return selectedOption;
 }
 
 Menu::~Menu()

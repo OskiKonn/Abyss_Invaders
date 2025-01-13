@@ -7,19 +7,22 @@
 
 const size_t MAX_MENU_ITEMS = 5;
 
+class Engine;			// Forward declaration
+
 class Menu
 {
 
 public:
 
 	short selectedOption;
+	bool inMenu = true;
 
-	Menu(sf::RenderWindow* win);
+	Menu(sf::RenderWindow* win, Engine *engine);
 	void initMenuOpts();
 	void Draw();
 	void menuDown();
 	void menuUp();
-	void menuEnter();
+	int menuEnter();
 	~Menu();
 
 private:
@@ -31,6 +34,7 @@ private:
 	};
 
 	sf::RenderWindow* m_gameWin;
+	Engine* engine = nullptr;
 	const std::string m_fontPath = "assets/fonts/PlayMeGames-Demo.otf";
 	const char m_indicator[4] = ">  ";
 	sf::Text m_menuOptions[MAX_MENU_ITEMS];

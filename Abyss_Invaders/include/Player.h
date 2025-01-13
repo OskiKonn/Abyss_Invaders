@@ -1,19 +1,18 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "Actor.h"
 
-class Player : public sf::Transformable, public sf::Drawable
+class Player : public Actor
 {
 public:
 
-	int health = 3;
-	sf::Texture playerTexture;
-	sf::Sprite playerSprite;
-
-	Player() = default;
+	Player(const std::string& texture_path, int hp)
+		: Actor(texture_path, hp) {}
+	virtual void shoot() override;
 
 private:
 
-	const sf::Vector2f velocity;
+	const std::string m_texture_path = "assets/textures/player.png";
 };
 
