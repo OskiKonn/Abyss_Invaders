@@ -5,14 +5,18 @@
 
 AbyssWorld::AbyssWorld() : m_difficulty("EASY")
 {
-	spawnPlayer();
 	initializeUiContent();
+	uiElementsPtr = &m_uiElements;
+	actorsPtr = &m_actors;
+	spawnPlayer();
 }
 
 AbyssWorld::AbyssWorld(std::string mode) : m_difficulty(mode)
 {
-	spawnPlayer();
 	initializeUiContent();
+	uiElementsPtr = &m_uiElements;
+	actorsPtr = &m_actors;
+	spawnPlayer();
 }
 
 void AbyssWorld::test()
@@ -24,17 +28,18 @@ std::shared_ptr<Player> AbyssWorld::spawnPlayer()
 {
 	player = std::make_shared<Player>("assets/textures/player.png", 3);
 	player->sprite.setPosition(300, 300);
+	player->sprite.setScale(0.1f, 0.1f);
+	m_actors.push_back(player);
 	return player;
 }
 
 void AbyssWorld::initializeUiContent()
 {
-	std::string font_path = "assets/fonts/PlayMeGames-Demo.otf";
-	sf::Font font;
+	std::string font_path = "assets/fonts/ariblk.ttf";
 
 	if (!font.loadFromFile(font_path))
 	{
-		std::cout << "FAILED LOADING UI ELEMENTS FONT!\n\n";
+		std::cerr << "FAILED LOADING UI ELEMENTS FONT!\n\n";
 	}
 
 	m_modeText.setString("MODE");
@@ -50,6 +55,7 @@ void AbyssWorld::initializeUiContent()
 	for (sf::Text* text : m_uiElements)
 	{
 		text->setFont(font);
+		text->setCharacterSize(15);
 	}
 
 	std::cout << "\n\nUI ELEMENTS INIT SUCCESSFUL\n";

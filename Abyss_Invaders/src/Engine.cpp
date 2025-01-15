@@ -48,8 +48,14 @@ void Engine::processEvents()
 void Engine::renderFrame()
 {
     gameWindow.clear();
+
     if (m_menu.inMenu)
         drawMenu();
+    else if (painter.isReady())
+    {
+        painter.paint();
+    }
+
     gameWindow.display();
 }
 
@@ -69,10 +75,8 @@ void Engine::createAbyss()
 {
     abyssWorld = std::make_unique<AbyssWorld>();
     abyssWorld->test();
+    painter.setActorsVector(abyssWorld->actorsPtr, abyssWorld->uiElementsPtr);
 }
 
-Engine::~Engine()
-{
-}
 
 

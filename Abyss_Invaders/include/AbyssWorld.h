@@ -10,15 +10,21 @@
 
 const int UI_ELEMENTS_NUM = 8;
 
+typedef std::array<sf::Text*, UI_ELEMENTS_NUM> UI_ELEMENTS_ARRAY;
+typedef std::vector<std::shared_ptr<Actor>> ACTORS_VECTOR;
+
 class AbyssWorld
 {
 public:
 
 	AbyssWorld();
 	AbyssWorld(std::string mode);
-	void test();
-
 	~AbyssWorld() = default;
+
+	void test();
+	
+	UI_ELEMENTS_ARRAY  *uiElementsPtr;
+	ACTORS_VECTOR *actorsPtr;
 
 private:
 
@@ -30,6 +36,7 @@ private:
 	std::shared_ptr<Player> player;
 	std::shared_ptr<Player> spawnPlayer();
 
+	sf::Font font;
 	sf::Text m_modeText;
 	sf::Text m_scoreText;
 	sf::Text m_highScoreText;
@@ -40,10 +47,11 @@ private:
 	sf::Text m_highScoreText_value;
 	sf::Text m_livesText_value;
 
-	std::array<sf::Text*, UI_ELEMENTS_NUM> m_uiElements = { &m_modeText, &m_modeText_value, &m_scoreText, &m_scoreText_value,
+	UI_ELEMENTS_ARRAY m_uiElements = { &m_modeText, &m_modeText_value, &m_scoreText, &m_scoreText_value,
 														   &m_highScoreText, &m_highScoreText_value, &m_livesText , &m_livesText_value };
-	std::vector<std::shared_ptr<Actor>> m_actors;
 	
+	ACTORS_VECTOR m_actors;
+
 	void initializeUiContent();
 	std::string numToText(int& num);
 };
