@@ -7,12 +7,9 @@ class Player : public Actor
 {
 public:
 
-	Player(const std::string& texture_path, int hp)
-		: Actor(texture_path, hp) {}
+	Player(int hp, const std::string texture_path = "assets/textures/player.png")
+		: Actor(hp, texture_path) {}
 	virtual void shoot() override;
 
-private:
-
-	const std::string m_texture_path = "assets/textures/player.png";
 };
 

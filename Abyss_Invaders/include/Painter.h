@@ -30,6 +30,7 @@ private:
 
 	UI_ELEMENTS_ARRAY  *m_uiElements;
 	ACTORS_VECTOR *m_actors;
+	sf::RectangleShape outline;
 
 	void setUiElementsPos();
 };

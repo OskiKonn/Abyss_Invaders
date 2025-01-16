@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="src\AbyssWorld.cpp" />
     <ClCompile Include="src\Actor.cpp" />
+    <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\InputControl.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -144,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="include\AbyssWorld.h" />
     <ClInclude Include="include\Actor.h" />
+    <ClInclude Include="include\Enemy.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\InputControl.h" />
     <ClInclude Include="include\Menu.h" />

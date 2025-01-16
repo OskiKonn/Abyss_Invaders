@@ -20,6 +20,20 @@ void Painter::paint()
     {
         m_gameWindow->draw(*actor);
     }
+
+    outline.setFillColor(sf::Color::Transparent); // Przezroczyste wype³nienie
+    outline.setOutlineColor(sf::Color::Red);      // Kolor obwódki
+    outline.setOutlineThickness(2.0f);
+
+    // Pobranie granic gracza
+    ACTORS_VECTOR vec = *m_actors;
+    std::shared_ptr<Actor> plr = vec[0];
+    sf::FloatRect bounds = plr->sprite.getGlobalBounds();
+
+    // Dopasowanie obwódki do granic gracza
+    outline.setPosition(bounds.left, bounds.top);
+    outline.setSize(sf::Vector2f(bounds.width, bounds.height));
+    m_gameWindow->draw(outline);
 }
 
 bool Painter::isReady()

@@ -1,6 +1,6 @@
 #include "InputControl.h"
 
-void InputControl::handleInput(sf::Keyboard::Key& key_code)
+void InputControl::handleInput(sf::Keyboard::Key& key_code, float &deltaTime)
 {
 	if (*inMenu)
 	{
@@ -8,14 +8,10 @@ void InputControl::handleInput(sf::Keyboard::Key& key_code)
 	}
 	else
 	{
-		std::cerr << "\nCANNOT PROCESS INPUT\n";
+		handlePlayerActions(key_code, deltaTime);
 	}
 }
 
-void InputControl::setPlayer()
-{
-	// TO DO
-}
 
 void InputControl::navigateMenu(sf::Keyboard::Key& key_code)
 {
@@ -31,13 +27,25 @@ void InputControl::navigateMenu(sf::Keyboard::Key& key_code)
 
 	case sf::Keyboard::Enter:
 		m_ui.menuEnter();
-
-
 		break;
 	}
 }
 
-void InputControl::handlePlayerActions(sf::Keyboard::Key& key_code)
+void InputControl::handlePlayerActions(sf::Keyboard::Key& key_code, float &deltaTime)
 {
-	// TO DO
+	switch (key_code)
+	{
+		case sf::Keyboard::A:
+			abyssWorld->moveLeft(deltaTime);
+			break;
+
+		case sf::Keyboard::D:
+			abyssWorld->moveRight(deltaTime);
+			break;
+	}
+}
+
+void InputControl::setAbyssWorld(std::shared_ptr<AbyssWorld>& world)
+{
+	abyssWorld = world;
 }

@@ -12,6 +12,8 @@ bool Engine::ready()
 // Running the main loop of the game
 void Engine::Run()
 {
+    gameWindow.setFramerateLimit(144);
+
     while (isGameRunning())
     {
         processEvents();
@@ -23,6 +25,7 @@ void Engine::Run()
 void Engine::processEvents()
 {
     sf::Event event;
+    float deltaTime = m_gameClock.restart().asSeconds();
 
     while (gameWindow.pollEvent(event))
     {
@@ -35,7 +38,7 @@ void Engine::processEvents()
 
         case sf::Event::KeyPressed:
 
-            inputController.handleInput(event.key.code);
+            inputController.handleInput(event.key.code, deltaTime);
 
         default:
             break;
@@ -51,9 +54,9 @@ void Engine::renderFrame()
 
     if (m_menu.inMenu)
         drawMenu();
-    else if (painter.isReady())
+    else if (m_painter.isReady())
     {
-        painter.paint();
+        m_painter.paint();
     }
 
     gameWindow.display();
@@ -73,9 +76,10 @@ bool Engine::isGameRunning()
 
 void Engine::createAbyss()
 {
-    abyssWorld = std::make_unique<AbyssWorld>();
-    abyssWorld->test();
-    painter.setActorsVector(abyssWorld->actorsPtr, abyssWorld->uiElementsPtr);
+    m_abyssWorld = std::make_shared<AbyssWorld>(gameWindow.getSize());
+    m_abyssWorld->test();
+    inputController.setAbyssWorld(m_abyssWorld);
+    m_painter.setActorsVector(m_abyssWorld->actorsPtr, m_abyssWorld->uiElementsPtr);
 }
 
 

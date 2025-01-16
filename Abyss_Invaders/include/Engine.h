@@ -17,7 +17,7 @@ public:
 	Engine() : gameWindow(sf::VideoMode(800, 600), "Abyss Invaders", sf::Style::Default),
 		m_menu(&gameWindow, this),
 		inputController(m_menu),
-		painter(&gameWindow) { };
+		m_painter(&gameWindow) { };
 
 	bool ready();
 	void Run();
@@ -29,10 +29,10 @@ public:
 private:
 
 	sf::RenderWindow gameWindow;
+	sf::Clock m_gameClock;
 	Menu m_menu;
-	std::unique_ptr<AbyssWorld> abyssWorld;
-	sf::Time deltaTime;
-	Painter painter;
+	std::shared_ptr<AbyssWorld> m_abyssWorld;
+	Painter m_painter;
 
 	bool isGameRunning();
 	void processEvents();
