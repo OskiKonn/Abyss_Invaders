@@ -31,3 +31,14 @@ void Actor::goRight(float &dT)
 
 	}
 }
+
+sf::FloatRect Actor::getHitbox() const
+{
+	return sprite.getGlobalBounds();
+}
+
+void Actor::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(sprite, states);
+
+}

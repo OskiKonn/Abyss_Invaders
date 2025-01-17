@@ -8,6 +8,7 @@ AbyssWorld::AbyssWorld(const sf::Vector2u &winSizeRef, GameMode mode) : m_gameMo
 	initializeUiContent();
 	uiElementsPtr = &m_uiElements;
 	actorsPtr = &m_actors;
+	bulletsPtr = &m_bullets;
 	spawnPlayer();
 	spawnEnemies(mode);
 }
@@ -25,6 +26,40 @@ void AbyssWorld::moveLeft(float& deltaTime)
 void AbyssWorld::moveRight(float& deltaTime)
 {
 	player->goRight(deltaTime);
+}
+
+void AbyssWorld::firePlayer()
+{
+	std::shared_ptr<Bullet> bullet = std::make_shared<Bullet>();
+	m_bullets.push_back(bullet);
+	player->shoot(bullet);
+}
+
+void AbyssWorld::update(float& deltaTime)
+{
+	if (m_bullets.size() > 0)
+	{
+		for (BULLETS_VECTOR::iterator it = m_bullets.begin(); it != m_bullets.end(); it++)
+		{
+			std::shared_ptr<Bullet> bullet = *it;
+			sf::Vector2f moveVector = bullet->speed * deltaTime;
+			bullet->body.move(moveVector);
+			
+			if (bullet->body.getPosition().y < static_cast<float>(winSize.y) * 0.15f)
+			{
+
+				if (m_bullets.size() > 1)
+				{
+					it = m_bullets.erase(it);
+				}
+				else
+				{
+					m_bullets.erase(it);
+					break;
+				}
+			}
+		}
+	}
 }
 
 std::shared_ptr<Player> AbyssWorld::spawnPlayer()

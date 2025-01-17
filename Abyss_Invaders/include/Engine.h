@@ -28,8 +28,10 @@ public:
 
 private:
 
+	bool m_abyssExists = false;
 	sf::RenderWindow gameWindow;
 	sf::Clock m_gameClock;
+	sf::Vector2u winSize;
 	Menu m_menu;
 	std::shared_ptr<AbyssWorld> m_abyssWorld;
 	Painter m_painter;

@@ -15,5 +15,5 @@ public:
 	Enemy(EnemyType type) : Actor(1, type == EnemyType::Soldier ? "assets/textures/enemy_soldier.png" : "") { };
 	~Enemy() = default;
 
-	virtual void shoot() override;
+	virtual void shoot(std::shared_ptr<Bullet> bullet) override;
 };

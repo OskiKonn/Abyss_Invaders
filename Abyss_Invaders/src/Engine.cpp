@@ -45,6 +45,9 @@ void Engine::processEvents()
 
         }
     }
+
+    if (m_abyssExists)
+        m_abyssWorld->update(deltaTime);
 }
 
 // Drawing new Frame
@@ -76,10 +79,13 @@ bool Engine::isGameRunning()
 
 void Engine::createAbyss()
 {
-    m_abyssWorld = std::make_shared<AbyssWorld>(gameWindow.getSize());
+    winSize = gameWindow.getSize();
+    m_abyssWorld = std::make_shared<AbyssWorld>(winSize);
     m_abyssWorld->test();
     inputController.setAbyssWorld(m_abyssWorld);
-    m_painter.setActorsVector(m_abyssWorld->actorsPtr, m_abyssWorld->uiElementsPtr);
+    std::cout << '\n' << m_abyssWorld->bulletsPtr->size();
+    m_painter.setActorsVector(m_abyssWorld->actorsPtr, m_abyssWorld->uiElementsPtr, m_abyssWorld->bulletsPtr);
+    m_abyssExists = true;
 }
 
 

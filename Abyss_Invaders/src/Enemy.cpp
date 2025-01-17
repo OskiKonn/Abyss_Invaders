@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-void Enemy::shoot()
+void Enemy::shoot(std::shared_ptr<Bullet> bullet)
 {
 	std::cout << '\n' << "Enemy shooting logic";
 }

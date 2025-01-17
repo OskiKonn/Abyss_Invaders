@@ -1,7 +1,10 @@
 #include "Player.h"
 #include <iostream>
+#include "Bullet.h"
 
-void Player::shoot()
+void Player::shoot(std::shared_ptr<Bullet> bullet)
 {
-	std::cout << "Some shooting logic\n";
+	sf::FloatRect bounds = sprite.getGlobalBounds();
+	sf::Vector2f barell(bounds.left + bounds.width / 2.0f, bounds.top);
+	bullet->fireUp(barell);
 }

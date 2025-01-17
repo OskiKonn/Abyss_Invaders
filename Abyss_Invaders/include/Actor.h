@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+class Bullet;
+
 class Actor : public sf::Drawable, public sf::Transformable
 {
 public:
@@ -13,12 +15,11 @@ public:
 	void getDamage(unsigned int damage);
 	void goLeft(float& dT);
 	void goRight(float& dT);
-	virtual void shoot() = 0;
+	sf::FloatRect getHitbox() const;
+	virtual void shoot(std::shared_ptr<Bullet>) = 0;
 	virtual ~Actor() = default;
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
-		target.draw(sprite, states);
-	}
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 protected:
 

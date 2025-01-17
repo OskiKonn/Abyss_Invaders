@@ -1,9 +1,11 @@
 #include "Painter.h"
+#include "Bullet.h"
 
-void Painter::setActorsVector(ACTORS_VECTOR *actors, UI_ELEMENTS_ARRAY *elements)
+void Painter::setActorsVector(ACTORS_VECTOR *actors, UI_ELEMENTS_ARRAY *elements, BULLETS_VECTOR *bullets)
 {
 	m_actors = actors;
 	m_uiElements = elements;
+    m_bullets = bullets;
 	ready = true;
 }
 
@@ -19,6 +21,16 @@ void Painter::paint()
     for (std::shared_ptr<Actor> actor : *m_actors)
     {
         m_gameWindow->draw(*actor);
+    }
+
+    std::cout << "\n" << m_bullets->size();
+
+    if (m_bullets->size() > 0)
+    {
+        for (auto bullet : *m_bullets)
+        {
+            m_gameWindow->draw(*bullet);
+        }
     }
 
     outline.setFillColor(sf::Color::Transparent); // Przezroczyste wype³nienie

@@ -9,7 +9,7 @@ public:
 
 	Player(int hp, const std::string texture_path = "assets/textures/player.png")
 		: Actor(hp, texture_path) {}
-	virtual void shoot() override;
+	virtual void shoot(std::shared_ptr<Bullet> bullet) override;
 
 };
 

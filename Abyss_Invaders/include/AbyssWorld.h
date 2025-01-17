@@ -8,11 +8,13 @@
 #include "Player.h"
 #include "Actor.h"
 #include "Enemy.h"
+#include "Bullet.h"
 
 const int UI_ELEMENTS_NUM = 8;
 
 typedef std::array<sf::Text*, UI_ELEMENTS_NUM> UI_ELEMENTS_ARRAY;
 typedef std::vector<std::shared_ptr<Actor>> ACTORS_VECTOR;
+typedef std::vector<std::shared_ptr<Bullet>> BULLETS_VECTOR;
 
 class AbyssWorld
 {
@@ -25,10 +27,12 @@ public:
 	void test();
 	void moveLeft(float& deltaTime);
 	void moveRight(float& deltaTime);
+	void firePlayer();
+	void update(float& deltaTime);
 	
 	UI_ELEMENTS_ARRAY  *uiElementsPtr;
 	ACTORS_VECTOR *actorsPtr;
-
+	BULLETS_VECTOR *bulletsPtr;
 
 private:
 
@@ -57,6 +61,7 @@ private:
 														   &m_highScoreText, &m_highScoreText_value, &m_livesText , &m_livesText_value };
 	
 	ACTORS_VECTOR m_actors;
+	BULLETS_VECTOR m_bullets;
 
 	void initializeUiContent();
 	void spawnEnemies(GameMode& gameMode);

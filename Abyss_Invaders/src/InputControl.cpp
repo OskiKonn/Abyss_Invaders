@@ -42,6 +42,10 @@ void InputControl::handlePlayerActions(sf::Keyboard::Key& key_code, float &delta
 		case sf::Keyboard::D:
 			abyssWorld->moveRight(deltaTime);
 			break;
+
+		case sf::Keyboard::W:
+			abyssWorld->firePlayer();
+			break;
 	}
 }
 
