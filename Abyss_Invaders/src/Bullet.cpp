@@ -8,6 +8,13 @@ Bullet::Bullet() : speed(0, -600.f)
 	body.setPosition(390.0f, 250.0f);
 }
 
+Bullet::Bullet(sf::Vector2f velocity) : speed(velocity)
+{
+	body.setSize(sf::Vector2f(8.0f, 14.0f));
+	body.setFillColor(sf::Color::White);
+	body.setPosition(390.0f, 250.0f);
+}
+
 void Bullet::fireUp(sf::Vector2f &barell)
 {
 	body.setPosition(barell);

@@ -14,6 +14,16 @@ class Menu
 
 public:
 
+	enum class MenuType {
+		MainMenu,
+		SettingsMenu,
+		PlayMenu,
+		PauseMenu,
+		EndGameMenu,
+		QuitMenu
+	};
+
+	MenuType menu_type = MenuType::MainMenu;
 	short selectedOption;
 	bool inMenu = true;
 
@@ -22,16 +32,11 @@ public:
 	void Draw();
 	void menuDown();
 	void menuUp();
+	void changeMenu();
 	int menuEnter();
 	~Menu();
 
 private:
-
-	enum class MenuType {
-		MainMenu,
-		SettingsMenu,
-		PlayMenu
-	};
 
 	sf::RenderWindow* m_gameWin;
 	Engine* engine = nullptr;
@@ -40,7 +45,14 @@ private:
 	sf::Text m_menuOptions[MAX_MENU_ITEMS];
 	sf::Text m_titleHeader;
 	sf::Font m_font;
-	MenuType m_menu_type = MenuType::MainMenu;
 	std::string m_optionsLabels[MAX_MENU_ITEMS] = { "Play", "Settings", "Quit", "" };
+	std::string m_pausedMenuLabels[MAX_MENU_ITEMS] = { "Resume", "Restart", "Back to menu", ""};
+	std::string m_quitMenuLabels[MAX_MENU_ITEMS] = { "Yes", "No", ""};
+	std::string m_endMenuLabels[MAX_MENU_ITEMS] = { "Return to menu", "Quit", ""};
+	std::string m_playMenuLabels[MAX_MENU_ITEMS] = { "Easy", "Medium", "Hard", "" };
+	std::string* labels;
+
+	void setCurrentLables(MenuType& type);
+
 };
 

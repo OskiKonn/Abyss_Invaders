@@ -15,44 +15,39 @@ Menu::Menu(sf::RenderWindow* win, Engine *engine) :
 	}
 
 	m_titleHeader.setString("ABYSS INVADERS");
-	initMenuOpts();
+	changeMenu();
 
 }
 
 void Menu::initMenuOpts()
 {
-	for (std::size_t i = 0; i < MAX_MENU_ITEMS && m_optionsLabels[i] != ""; ++i)
+
+	for (std::size_t i = 0; i < MAX_MENU_ITEMS && labels[i] != ""; ++i)
 	{
 
 		m_menuOptions[i].setFont(m_font);
 
 		if (i == selectedOption)
 		{
-			std::string optWithIndicator = m_indicator + m_optionsLabels[i];
+			std::string optWithIndicator = m_indicator + labels[i];
 			m_menuOptions[i].setString(optWithIndicator);
 			m_menuOptions[i].setCharacterSize(23);
 		}
 		else
 		{
-			m_menuOptions[i].setString(m_optionsLabels[i]);
+			m_menuOptions[i].setString(labels[i]);
 			m_menuOptions[i].setCharacterSize(20);
 		}
 
 		m_menuOptions[i].setFillColor(sf::Color::White);
 		m_menuOptions[i].setPosition(380.f, 380.f + i * 35.f);
 
-		/*
-		m_titleHeader.setFont(m_font);
-		m_titleHeader.setPosition(m_gameWin->getSize().x / 2 - m_titleHeader.getGlobalBounds().width / 2,
-								  m_gameWin->getSize().y / 8);
-		m_titleHeader.setCharacterSize(32);
-		*/
 	}
 }
 
 void Menu::Draw()
 {
-	for (size_t i = 0; i < MAX_MENU_ITEMS && m_optionsLabels[i] != ""; ++i)
+	for (size_t i = 0; i < MAX_MENU_ITEMS && labels[i] != ""; ++i)
 	{
 		m_gameWin->draw(m_menuOptions[i]);
 	}
@@ -62,7 +57,7 @@ void Menu::Draw()
 
 void Menu::menuDown()
 {
-	if (selectedOption < MAX_MENU_ITEMS - 1 && m_optionsLabels[selectedOption + 1] != "")
+	if (selectedOption < MAX_MENU_ITEMS - 1 && labels[selectedOption + 1] != "")
 	{
 		++selectedOption;
 		initMenuOpts();
@@ -78,22 +73,87 @@ void Menu::menuUp()
 	}
 }
 
+void Menu::changeMenu()
+{
+	setCurrentLables(menu_type);
+	initMenuOpts();
+}
+
 int Menu::menuEnter()
 {
 	switch (selectedOption)
 	{
 	case 0:
-		m_menu_type = MenuType::PlayMenu;
-		inMenu = false;
-		engine->createAbyss();	// Creates AbyssWorld
+
+		if (menu_type == MenuType::PlayMenu)
+		{
+			inMenu = false;
+			engine->createAbyss(1);	// Creates AbyssWorld
+		}
+		else if (menu_type == MenuType::PauseMenu)
+		{
+			engine->resumeGame();
+		}
+		else if (menu_type == MenuType::QuitMenu)
+		{
+			engine->quit();
+		}
+		else if (menu_type == MenuType::EndGameMenu)
+		{
+			menu_type = MenuType::MainMenu;
+			engine->endGame();
+			changeMenu();
+		}
+		else if (menu_type == MenuType::MainMenu)
+		{
+			menu_type = MenuType::PlayMenu;
+			changeMenu();
+		}
+
 		break;
 
 	case 1:
-		m_menu_type = MenuType::SettingsMenu;
+		
+		if (menu_type == MenuType::PlayMenu)
+		{
+			inMenu = false;
+			engine->createAbyss(2);	// Creates AbyssWorld
+		}
+		else if (menu_type == MenuType::PauseMenu)
+		{
+			inMenu = false;
+			engine->restartGame();
+		}
+		else if (menu_type == MenuType::QuitMenu)
+		{
+			engine->resumeGame();
+		}
+		else if (menu_type == MenuType::EndGameMenu)
+		{
+			menu_type = MenuType::MainMenu;
+			engine->quit();
+		}
+
 		break;
 
 	case 2:
-		m_gameWin->close();
+		
+		if (menu_type == MenuType::PlayMenu)
+		{
+			inMenu = false;
+			engine->createAbyss(3);	// Creates AbyssWorld
+		}
+		else if (menu_type == MenuType::PauseMenu)
+		{
+			menu_type = MenuType::MainMenu;
+			engine->endGame();
+			changeMenu();
+		}
+		else if (menu_type == MenuType::MainMenu)
+		{
+			engine->quit();
+		}
+
 		break;
 
 	default:
@@ -107,4 +167,31 @@ int Menu::menuEnter()
 
 Menu::~Menu()
 {
+}
+
+void Menu::setCurrentLables(MenuType& type)
+{
+	switch (type)
+	{
+	case MenuType::MainMenu:
+		labels = m_optionsLabels;
+		break;
+
+	case MenuType::PlayMenu:
+		labels = m_playMenuLabels;
+		break;
+
+	case MenuType::PauseMenu:
+		labels = m_pausedMenuLabels;
+		break;
+
+	case MenuType::EndGameMenu:
+		labels = m_endMenuLabels;
+		break;
+
+	case MenuType::QuitMenu:
+		labels = m_quitMenuLabels;
+		break;
+
+	}
 }

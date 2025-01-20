@@ -23,7 +23,6 @@ void Painter::paint()
         m_gameWindow->draw(*actor);
     }
 
-    std::cout << "\n" << m_bullets->size();
 
     if (m_bullets->size() > 0)
     {

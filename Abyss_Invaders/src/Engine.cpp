@@ -33,7 +33,7 @@ void Engine::processEvents()
         {
         case sf::Event::Closed:
 
-            gameWindow.close();
+            quit();
             break;
 
         case sf::Event::KeyPressed:
@@ -41,13 +41,28 @@ void Engine::processEvents()
             inputController.handleInput(event.key.code, deltaTime);
 
         default:
+
             break;
 
         }
     }
 
-    if (m_abyssExists)
+    if (m_abyssExists && !m_abyssWorld->gameOver && !m_abyssWorld->paused)
+    {
         m_abyssWorld->update(deltaTime);
+    }
+    else if (m_abyssExists && m_abyssWorld->gameOver)
+    {
+        m_menu.menu_type = Menu::MenuType::EndGameMenu;
+        m_menu.changeMenu();
+        m_menu.inMenu = true;
+    }
+    else if (m_abyssExists && m_abyssWorld->paused)
+    {
+        m_menu.menu_type = Menu::MenuType::PauseMenu;
+        m_menu.changeMenu();
+        m_menu.inMenu = true;
+    }
 }
 
 // Drawing new Frame
@@ -77,13 +92,52 @@ bool Engine::isGameRunning()
     return gameWindow.isOpen();
 }
 
-void Engine::createAbyss()
+void Engine::createAbyss(int mode)
 {
+    AbyssWorld::GameMode gameMode;
+
+    if (mode == 1)
+        gameMode = AbyssWorld::GameMode::Easy;
+    else if (mode == 2)
+        gameMode = AbyssWorld::GameMode::Medium;
+    else if (mode == 3)
+        gameMode = AbyssWorld::GameMode::Hard;
+
     winSize = gameWindow.getSize();
-    m_abyssWorld = std::make_shared<AbyssWorld>(winSize);
+    m_abyssWorld = std::make_shared<AbyssWorld>(winSize, gameMode);
     m_abyssWorld->test();
     inputController.setAbyssWorld(m_abyssWorld);
-    std::cout << '\n' << m_abyssWorld->bulletsPtr->size();
+    m_painter.setActorsVector(m_abyssWorld->actorsPtr, m_abyssWorld->uiElementsPtr, m_abyssWorld->bulletsPtr);
+    m_abyssExists = true;
+}
+
+void Engine::resumeGame()
+{
+    m_menu.inMenu = false;
+    m_abyssWorld->restartClocks();
+    m_abyssWorld->paused = false;
+}
+
+void Engine::quit()
+{
+    gameWindow.close();
+}
+
+void Engine::endGame()
+{
+    m_abyssWorld->paused = false;
+    m_abyssWorld->gameOver = false;
+    m_abyssExists = false;
+}
+
+void Engine::restartGame()
+{
+    AbyssWorld::GameMode gameMode = m_abyssWorld->gameMode;
+    
+    winSize = gameWindow.getSize();
+    m_abyssWorld = std::make_shared<AbyssWorld>(winSize, gameMode);
+    m_abyssWorld->test();
+    inputController.setAbyssWorld(m_abyssWorld);
     m_painter.setActorsVector(m_abyssWorld->actorsPtr, m_abyssWorld->uiElementsPtr, m_abyssWorld->bulletsPtr);
     m_abyssExists = true;
 }

@@ -13,8 +13,9 @@ public:
 
 	Actor(int health, std::string texture_path);
 	void getDamage(unsigned int damage);
-	void goLeft(float& dT);
-	void goRight(float& dT);
+	void goLeft(float dT);
+	void goRight(float dT);
+	void goDown();
 	sf::FloatRect getHitbox() const;
 	virtual void shoot(std::shared_ptr<Bullet>) = 0;
 	virtual ~Actor() = default;

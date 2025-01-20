@@ -9,6 +9,7 @@ class Bullet : public sf::Transformable, public sf::Drawable
 public:
 
 	Bullet();
+	Bullet(sf::Vector2f velocity);
 	~Bullet() = default;
 	void fireUp(sf::Vector2f &barell);
 	void fireDown(sf::Vector2f &barell);

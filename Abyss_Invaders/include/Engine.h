@@ -22,7 +22,11 @@ public:
 	bool ready();
 	void Run();
 	void drawMenu();
-	void createAbyss();
+	void createAbyss(int mode);
+	void resumeGame();
+	void quit();
+	void endGame();
+	void restartGame();
 
 	~Engine() = default;
 

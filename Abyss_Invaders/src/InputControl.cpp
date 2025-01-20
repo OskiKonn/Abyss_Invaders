@@ -33,6 +33,7 @@ void InputControl::navigateMenu(sf::Keyboard::Key& key_code)
 
 void InputControl::handlePlayerActions(sf::Keyboard::Key& key_code, float &deltaTime)
 {
+
 	switch (key_code)
 	{
 		case sf::Keyboard::A:
@@ -46,6 +47,14 @@ void InputControl::handlePlayerActions(sf::Keyboard::Key& key_code, float &delta
 		case sf::Keyboard::W:
 			abyssWorld->firePlayer();
 			break;
+
+		case sf::Keyboard::F1:
+			abyssWorld->paused = true;
+			break;
+
+		case sf::Keyboard::Escape:
+			abyssWorld->paused = true;
+
 	}
 }
 
